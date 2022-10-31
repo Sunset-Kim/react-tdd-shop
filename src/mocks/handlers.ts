@@ -1,45 +1,12 @@
 import { rest } from "msw";
-
-export interface Product {
-  name: string;
-  price: number;
-  imagePath: string;
-}
-
-export interface Option {
-  name: string;
-  price: number;
-}
+import { OPTIONS, PRODUCTS } from "./data";
+import { Option, Product } from "./data/type";
 
 export const handlers = [
   rest.get("http://localhost:5000/products", (req, res, ctx) => {
-    return res(
-      ctx.json<Product[]>([
-        {
-          name: "America",
-          price: 50000,
-          imagePath: "/images/america.jpeg",
-        },
-        {
-          name: "Korea",
-          price: 10000,
-          imagePath: "/images/korea.jpeg",
-        },
-      ])
-    );
+    return res(ctx.json<Product[]>(PRODUCTS));
   }),
   rest.get("http://localhost:5000/options", (req, res, ctx) => {
-    return res(
-      ctx.json<Option[]>([
-        {
-          name: "Dinner",
-          price: 100000,
-        },
-        {
-          name: "First-Class",
-          price: 100000,
-        },
-      ])
-    );
+    return res(ctx.json<Option[]>(OPTIONS));
   }),
 ];

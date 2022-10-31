@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Product } from "../../mocks/handlers";
+import { Product } from "../../mocks/data/type";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>();
