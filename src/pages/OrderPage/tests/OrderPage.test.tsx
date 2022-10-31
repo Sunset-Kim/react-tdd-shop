@@ -1,6 +1,18 @@
+import { render, screen } from "@testing-library/react";
+import OrderPage from "../OrderPage";
+
 describe("Order page", () => {
+  function setup() {
+    return render(<OrderPage />);
+  }
   describe("when render", () => {
-    it.todo("fetch data");
+    it("fetch data", async () => {
+      setup();
+      const imgElements = (await screen.findAllByRole(
+        "img"
+      )) as HTMLImageElement[];
+      expect(imgElements).toHaveLength(2);
+    });
 
     it.todo("products price");
 
