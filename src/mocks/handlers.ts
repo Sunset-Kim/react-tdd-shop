@@ -1,12 +1,12 @@
 import { rest } from "msw";
 
-interface Product {
+export interface Product {
   name: string;
   price: number;
   imagePath: string;
 }
 
-interface Option {
+export interface Option {
   name: string;
   price: number;
 }
