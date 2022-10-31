@@ -14,7 +14,13 @@ describe("Order page", () => {
       expect(imgElements).toHaveLength(2);
     });
 
-    it.todo("products price");
+    it("products price", async () => {
+      setup();
+      const spanElements = (await screen.findAllByText(/price: /i)).map(
+        (el) => el.textContent
+      );
+      expect(spanElements).toEqual(["price: 50000", "price: 10000"]);
+    });
 
     it.todo("All products count is 0");
 
