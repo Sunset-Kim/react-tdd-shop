@@ -6,6 +6,7 @@ describe("Order page", () => {
   function setup() {
     return render(<OrderPage />);
   }
+
   describe("when render", () => {
     it("fetch data", async () => {
       setup();
@@ -23,7 +24,17 @@ describe("Order page", () => {
       expect(spanElements).toEqual(["price: 50000", "price: 10000"]);
     });
 
-    it.todo("All products count is 0");
+    it("프로덕트의 총 갯수는 0개이고 product price는 0 이다", () => {
+      // todo
+    });
+
+    it("프로덕트의 갯수를 올리면 해당 프로덕트의 count 갯수가 증가하고, product price도 증가한다", () => {
+      // todo
+    });
+
+    it("프로덕트의 갯수를 내리면 해당 프로덕트의 count 갯수가 감소, product price도 감소한다, (단, 0보다 작으면 0을 유지한다)", () => {
+      // todo
+    });
 
     it("options", async () => {
       setup();
