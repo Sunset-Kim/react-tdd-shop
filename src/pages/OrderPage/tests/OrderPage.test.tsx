@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { findAllByRole, render, screen } from "@testing-library/react";
+import { OPTIONS } from "../../../mocks/data";
 import OrderPage from "../OrderPage";
 
 describe("Order page", () => {
@@ -23,6 +24,16 @@ describe("Order page", () => {
     });
 
     it.todo("All products count is 0");
+
+    it("options", async () => {
+      setup();
+
+      const checkboxs = (await screen.findAllByRole(
+        "checkbox"
+      )) as HTMLInputElement[];
+
+      expect(checkboxs).toHaveLength(2);
+    });
 
     it.todo("options price");
 
