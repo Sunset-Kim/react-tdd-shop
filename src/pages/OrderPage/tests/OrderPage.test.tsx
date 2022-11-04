@@ -21,11 +21,18 @@ describe("Order page", () => {
       const spanElements = (await screen.findAllByText(/price: /i)).map(
         (el) => el.textContent
       );
+
       expect(spanElements).toEqual(["price: 50000", "price: 10000"]);
     });
 
-    it("프로덕트의 총 갯수는 0개이고 product price는 0 이다", () => {
-      // todo
+    it("프로덕트의 총 갯수는 0개이고 product price는 0 이다", async () => {
+      setup();
+
+      const inputElements = (await screen.findAllByRole(
+        "spinbutton"
+      )) as HTMLInputElement[];
+
+      expect(inputElements.map((el) => el.value)).toEqual(["0", "0"]);
     });
 
     it("프로덕트의 갯수를 올리면 해당 프로덕트의 count 갯수가 증가하고, product price도 증가한다", () => {
