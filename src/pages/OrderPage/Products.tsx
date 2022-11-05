@@ -1,30 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Product } from "../../mocks/data/type";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import {
+  IProductsApi,
+  ProductsApi,
+  ProductsState,
+  ProductsStateCtx,
+} from "../../contexts/ProductsProvider";
 
 const Products = () => {
-  const [products, setProducts] = useState<Product[]>();
+  const { updateCount } = useContext(ProductsApi) as IProductsApi;
+  const { products } = useContext(ProductsStateCtx) as ProductsState;
 
-  useEffect(() => {
-    fetch("http://localhost:5000/products")
-      .then((data) => data.json())
-      .then((products) => setProducts(products));
-  }, []);
+  const handleChangeCount = (name: string, price: number, value: string) => {
+    const count = Number(value) < 0 ? 0 : Number(value);
+    updateCount("products", name, count);
+  };
+
+  const calcPrice = (products: ProductsState["products"]) => {
+    let sum = 0;
+    products.forEach((value, key) => {
+      sum += value.count * value.price;
+    });
+    return sum;
+  };
 
   return (
     <div>
       <h2>Products</h2>
 
-      <h3>Price: </h3>
+      <h3>{`Total: ${calcPrice(products)}`}</h3>
 
       {products &&
-        products.map((product) => (
-          <div key={product.name}>
-            <img src={product.imagePath} alt={product.name} />
+        Array.from(products).map(([name, product]) => (
+          <div key={name}>
+            <img src={product.imgPath} alt={name} />
             <span>price: {product.price}</span>
 
             <div>
-              <label htmlFor={product.name}>{product.name}</label>
-              <input id={product.name} type='number' defaultValue={0} />
+              <label htmlFor={name}>{name}</label>
+              <input
+                onChange={(e) =>
+                  handleChangeCount(name, product.price, e.currentTarget.value)
+                }
+                id={name}
+                type='number'
+                defaultValue={0}
+              />
             </div>
           </div>
         ))}
