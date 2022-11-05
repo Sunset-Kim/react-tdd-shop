@@ -15,7 +15,7 @@ function Options() {
 
       {options &&
         options.map((opt) => (
-          <li>
+          <li key={opt.name}>
             <label htmlFor={opt.name}>{opt.name}</label>
             <input id={opt.name} type='checkbox' />
           </li>
