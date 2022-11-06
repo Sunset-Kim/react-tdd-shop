@@ -1,7 +1,8 @@
 export interface Product {
+  id: number;
   name: string;
   price: number;
-  imagePath: string;
+  imgPath: string;
 }
 
 export interface Option {

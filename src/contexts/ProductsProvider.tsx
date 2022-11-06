@@ -7,41 +7,41 @@ import {
 } from "react";
 import { Product } from "../mocks/data/type";
 
-type ProductsType = "options" | "products";
-export type ProductsState = Record<ProductsType, Map<string, Info>>;
+export type ProductsType = "options" | "products";
 
 export interface IProductsApi {
-  updateCount: (type: ProductsType, name: string, count: number) => void;
+  updateCount: (type: ProductsType, id: number, count: number) => void;
 }
 
-export interface Info {
-  imgPath: string;
+export type ProductsState = Record<ProductsType, ProductCountState[]>;
+
+export interface ProductCountState extends Product {
   count: number;
   price: number;
 }
 
-export const ProductsState = createContext(null);
-
 export const ProductsStateCtx = createContext<ProductsState | null>(null);
-export const ProductsApi = createContext<IProductsApi | null>(null);
+export const ProductsApiCtx = createContext<IProductsApi | null>(null);
 
 const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [count, setCount] = useState({
-    options: new Map<string, Info>(),
-    products: new Map<string, Info>(),
+  const [state, setState] = useState<ProductsState>({
+    options: [],
+    products: [],
   });
-  const [products, setProducts] = useState<Product[]>();
 
   const updateCount = useCallback(
-    (type: ProductsType, name: string, number: number) => {
-      setCount((prev) => {
-        const newState = { ...prev };
-        const newValue = newState[type].get(name)!;
-        newState[type].set(name, { ...newValue, count: number });
+    (type: ProductsType, id: number, number: number) => {
+      setState((prev) => {
+        const newProduct = prev[type]
+          .filter((product) => product.id === id)
+          .map((product) => ({ ...product, count: number }));
+
+        const newState = { ...prev, ...newProduct };
+
         return newState;
       });
     },
-    [setCount]
+    [setState]
   );
 
   const api = useMemo(
@@ -55,21 +55,22 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     fetch("http://localhost:5000/products")
       .then((data) => data.json())
       .then((products) =>
-        setProducts(
-          products.map((product: Product) => {
-            count.products.set(product.name, {
-              imgPath: product.imagePath,
+        setState((prev) => {
+          const newState = {
+            ...prev,
+            products: products.map((product: Product) => ({
+              ...product,
               count: 0,
-              price: product.price,
-            });
-          })
-        )
+            })),
+          };
+          return newState;
+        })
       );
   }, []);
 
   return (
-    <ProductsStateCtx.Provider value={{ ...count, ...products }}>
-      <ProductsApi.Provider value={api}>{children}</ProductsApi.Provider>
+    <ProductsStateCtx.Provider value={{ ...state }}>
+      <ProductsApiCtx.Provider value={api}>{children}</ProductsApiCtx.Provider>
     </ProductsStateCtx.Provider>
   );
 };
