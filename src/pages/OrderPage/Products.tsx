@@ -1,49 +1,47 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-import {
-  IProductsApi,
-  ProductsApi,
-  ProductsState,
-  ProductsStateCtx,
-} from "../../contexts/ProductsProvider";
+import React from "react";
+import { IProductsApi, ProductsState } from "../../contexts/ProductsProvider";
 
-const Products = () => {
-  const { updateCount } = useContext(ProductsApi) as IProductsApi;
-  const { products } = useContext(ProductsStateCtx) as ProductsState;
+interface ProductsProps {
+  products: ProductsState["products"];
+  price: number;
+  onUpdateCount: IProductsApi["updateCount"];
+}
 
-  const handleChangeCount = (name: string, price: number, value: string) => {
+const Products: React.FC<ProductsProps> = ({
+  products,
+  price,
+  onUpdateCount,
+}) => {
+  const handleChangeCount = (id: number, price: number, value: string) => {
     const count = Number(value) < 0 ? 0 : Number(value);
-    updateCount("products", name, count);
-  };
-
-  const calcPrice = (products: ProductsState["products"]) => {
-    let sum = 0;
-    products.forEach((value, key) => {
-      sum += value.count * value.price;
-    });
-    return sum;
+    onUpdateCount("products", id, count);
   };
 
   return (
     <div>
       <h2>Products</h2>
 
-      <h3>{`Total: ${calcPrice(products)}`}</h3>
+      <h3>{`Total: ${price}`}</h3>
 
       {products &&
-        Array.from(products).map(([name, product]) => (
-          <div key={name}>
-            <img src={product.imgPath} alt={name} />
+        products.map((product) => (
+          <div key={product.id}>
+            <img src={product.imgPath} alt={product.name} />
             <span>price: {product.price}</span>
 
             <div>
-              <label htmlFor={name}>{name}</label>
+              <label htmlFor={product.name}>{product.name}</label>
               <input
                 onChange={(e) =>
-                  handleChangeCount(name, product.price, e.currentTarget.value)
+                  handleChangeCount(
+                    product.id,
+                    product.price,
+                    e.currentTarget.value
+                  )
                 }
-                id={name}
+                id={product.name}
                 type='number'
-                defaultValue={0}
+                value={product.count}
               />
             </div>
           </div>
