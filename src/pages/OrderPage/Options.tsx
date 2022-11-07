@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { OptionState } from "../../contexts/ProductsProvider";
+import { calcOptionPrice } from "../../util/calculate_price";
 
 interface OptionsProps {
   options: OptionState[];
@@ -7,12 +7,6 @@ interface OptionsProps {
 }
 
 function Options({ options, onUpdate }: OptionsProps) {
-  const calcOptionPrice = (options: OptionState[]) =>
-    options.reduce((a: number, c: OptionState) => {
-      a += c.price * (c.checked ? 1 : 0);
-      return a;
-    }, 0);
-
   return (
     <div>
       <h2>Options</h2>

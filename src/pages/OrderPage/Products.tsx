@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  IProductsApi,
-  ProductCountState,
-  ProductsState,
-} from "../../contexts/ProductsProvider";
+import { IProductsApi, ProductsState } from "../../contexts/ProductsProvider";
+import { calcProductsPice } from "../../util/calculate_price";
 
 interface ProductsProps {
   products: ProductsState["products"];
@@ -16,19 +13,11 @@ const Products: React.FC<ProductsProps> = ({ products, onUpdateCount }) => {
     onUpdateCount(id, count);
   };
 
-  const calcPrice = (products: ProductsState["products"]) => {
-    const sum = products.reduce((a: number, c: ProductCountState) => {
-      a += c.price * c.count;
-      return a;
-    }, 0);
-    return sum;
-  };
-
   return (
     <div>
       <h2>Products</h2>
 
-      <h3>{`Prodcuts Price: $${calcPrice(products) ?? 0}`}</h3>
+      <h3>{`Prodcuts Price: $${calcProductsPice(products) ?? 0}`}</h3>
 
       {products &&
         products.map((product) => (
