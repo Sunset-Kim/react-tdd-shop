@@ -14,21 +14,10 @@ function OrderPage() {
     ProductsApiCtx
   ) as IProductsApi;
   const { products, options } = useContext(ProductsStateCtx) as ProductsState;
-  const calcPrice = (products: ProductsState["products"]) => {
-    const sum = products.reduce((a: number, c: ProductCountState) => {
-      a += c.price * c.count;
-      return a;
-    }, 0);
-    return sum;
-  };
 
   return (
     <div>
-      <Products
-        products={products}
-        price={calcPrice(products)}
-        onUpdateCount={updateCount}
-      />
+      <Products products={products} onUpdateCount={updateCount} />
       <Options options={options} onUpdate={updateOption} />
     </div>
   );

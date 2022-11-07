@@ -24,7 +24,7 @@ describe("Products", () => {
 
   function setup() {
     return render(
-      <Products products={products} price={0} onUpdateCount={handleUpdate} />
+      <Products products={products} onUpdateCount={handleUpdate} />
     );
   }
 

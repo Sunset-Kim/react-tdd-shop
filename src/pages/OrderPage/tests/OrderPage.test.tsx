@@ -30,13 +30,13 @@ describe("Integration test for Order page", () => {
         "spinbutton"
       )) as HTMLInputElement[];
 
-      const totalPrice = screen.getByText("Total:", { exact: false });
+      const totalPrice = screen.getByText("Prodcuts Price:", { exact: false });
 
       // when
       userEvent.type(inputElements[0], "1");
 
       //then
-      expect(totalPrice).toHaveTextContent("Total: 50000");
+      expect(totalPrice).toHaveTextContent(/50000/);
     });
   });
 
