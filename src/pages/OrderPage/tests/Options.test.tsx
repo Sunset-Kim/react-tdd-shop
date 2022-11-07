@@ -37,7 +37,6 @@ describe("options", () => {
       userEvent.click(checkBox);
 
       // then
-      expect(checkBox).toBeChecked();
       expect(onUpdate).toBeCalledWith(1, true);
     });
   });
