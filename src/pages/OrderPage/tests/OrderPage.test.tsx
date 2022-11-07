@@ -75,4 +75,30 @@ describe("Integration test for Order page", () => {
       expect(optPrice).toHaveTextContent(/10000/);
     });
   });
+
+  context("when check options, change product count", () => {
+    it("asdf", async () => {
+      setup();
+      // given
+      const inputElement = (await screen.findByRole("spinbutton", {
+        name: "America",
+      })) as HTMLInputElement;
+
+      const checkbox = (await screen.findByRole("checkbox", {
+        name: "First-Class",
+      })) as HTMLInputElement;
+
+      const TotalPrice = screen.getByRole("definition", {
+        name: "total-price",
+      });
+
+      // when
+      userEvent.type(inputElement, "1");
+      userEvent.click(checkbox);
+
+      // then
+      expect(checkbox).toBeChecked();
+      expect(TotalPrice).toHaveTextContent(/150000/);
+    });
+  });
 });
