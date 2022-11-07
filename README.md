@@ -49,3 +49,7 @@ afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
 ```
+
+## 논의되고 있는 다양한 query
+
+[dt, dd](https://github.com/testing-library/dom-testing-library/issues/140)
