@@ -32,11 +32,15 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const updateCount = useCallback(
     (type: ProductsType, id: number, number: number) => {
       setState((prev) => {
-        const newProduct = prev[type]
-          .filter((product) => product.id === id)
-          .map((product) => ({ ...product, count: number }));
+        const newProduct = prev[type].map((product) => {
+          if (product.id === id) {
+            product.count = number;
+            return product;
+          }
+          return product;
+        });
 
-        const newState = { ...prev, ...newProduct };
+        const newState = { ...prev, products: [...newProduct] };
 
         return newState;
       });
