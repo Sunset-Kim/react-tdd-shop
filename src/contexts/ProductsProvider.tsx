@@ -5,12 +5,13 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Product } from "../mocks/data/type";
+import { Option, Product } from "../mocks/data/type";
 
 export type ProductsType = "options" | "products";
 
 export interface IProductsApi {
-  updateCount: (type: ProductsType, id: number, count: number) => void;
+  updateCount: (id: number, count: number) => void;
+  updateOption: (id: number, checked: boolean) => void;
 }
 
 export type ProductsState = Record<ProductsType, ProductCountState[]>;
@@ -30,9 +31,9 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   });
 
   const updateCount = useCallback(
-    (type: ProductsType, id: number, number: number) => {
+    (id: number, number: number) => {
       setState((prev) => {
-        const newProduct = prev[type].map((product) => {
+        const newProduct = prev.products.map((product) => {
           if (product.id === id) {
             product.count = number;
             return product;
@@ -54,6 +55,23 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     }),
     [updateCount]
   );
+
+  useEffect(() => {
+    fetch("http://localhost:5000/options")
+      .then((data) => data.json())
+      .then((options) =>
+        setState((prev) => {
+          const newState = {
+            ...prev,
+            options: options.map((opt: Option) => ({
+              ...opt,
+              checked: false,
+            })),
+          };
+          return newState;
+        })
+      );
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/products")

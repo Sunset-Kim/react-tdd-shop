@@ -51,7 +51,7 @@ describe("Products", () => {
 
       // then
       expect(handleUpdate).toBeCalled();
-      expect(handleUpdate).toBeCalledWith("products", 1, 2);
+      expect(handleUpdate).toBeCalledWith(1, 2);
     });
   });
 });

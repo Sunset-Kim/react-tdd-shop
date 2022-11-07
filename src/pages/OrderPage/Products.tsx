@@ -14,7 +14,7 @@ const Products: React.FC<ProductsProps> = ({
 }) => {
   const handleChangeCount = (id: number, price: number, value: string) => {
     const count = Number(value) < 0 ? 0 : Number(value);
-    onUpdateCount("products", id, count);
+    onUpdateCount(id, count);
   };
 
   return (
