@@ -14,11 +14,18 @@ export interface IProductsApi {
   updateOption: (id: number, checked: boolean) => void;
 }
 
-export type ProductsState = Record<ProductsType, ProductCountState[]>;
+export type ProductsState = {
+  products: ProductCountState[];
+  options: OptionState[];
+};
 
 export interface ProductCountState extends Product {
   count: number;
   price: number;
+}
+
+export interface OptionState extends Option {
+  checked: boolean;
 }
 
 export const ProductsStateCtx = createContext<ProductsState | null>(null);
@@ -49,11 +56,31 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     [setState]
   );
 
+  const updateOption = useCallback(
+    (id: number, checked: boolean) => {
+      setState((prev) => {
+        const newProduct = prev.options.map((opt) => {
+          if (opt.id === id) {
+            opt.checked = checked;
+            return opt;
+          }
+          return opt;
+        });
+
+        const newState = { ...prev, options: [...newProduct] };
+
+        return newState;
+      });
+    },
+    [setState]
+  );
+
   const api = useMemo(
     () => ({
       updateCount,
+      updateOption,
     }),
-    [updateCount]
+    [updateCount, updateOption]
   );
 
   useEffect(() => {

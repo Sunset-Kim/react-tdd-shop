@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { getByText, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import OrderPage from "../OrderPage";
 import CounterProvider from "../../../contexts/ProductsProvider";
 
-describe("Order page", () => {
+describe("Integration test for Order page", () => {
   function setup() {
     return render(<OrderPage />, { wrapper: CounterProvider });
   }
@@ -37,6 +37,42 @@ describe("Order page", () => {
 
       //then
       expect(totalPrice).toHaveTextContent("Total: 50000");
+    });
+  });
+
+  context("when Options render", () => {
+    it("display options list, input checked is false", async () => {
+      setup();
+
+      const inputElements = (await screen.findAllByRole(
+        "checkbox"
+      )) as HTMLInputElement[];
+
+      expect(inputElements).toHaveLength(2);
+      expect(inputElements.map((product) => product.checked)).toEqual([
+        false,
+        false,
+      ]);
+    });
+  });
+
+  context("when Option check", () => {
+    it("change checked, Option Price", async () => {
+      setup();
+
+      // given
+      const checkbox = (await screen.findByRole("checkbox", {
+        name: "First-Class",
+      })) as HTMLInputElement;
+
+      const optPrice = screen.getByText("Options Price:", { exact: false });
+
+      // when
+      userEvent.click(checkbox);
+
+      // then
+      expect(checkbox).toBeChecked();
+      expect(optPrice).toHaveTextContent(/10000/);
     });
   });
 });

@@ -10,8 +10,10 @@ import {
 import { useContext } from "react";
 
 function OrderPage() {
-  const { updateCount } = useContext(ProductsApiCtx) as IProductsApi;
-  const { products } = useContext(ProductsStateCtx) as ProductsState;
+  const { updateCount, updateOption } = useContext(
+    ProductsApiCtx
+  ) as IProductsApi;
+  const { products, options } = useContext(ProductsStateCtx) as ProductsState;
   const calcPrice = (products: ProductsState["products"]) => {
     const sum = products.reduce((a: number, c: ProductCountState) => {
       a += c.price * c.count;
@@ -27,7 +29,7 @@ function OrderPage() {
         price={calcPrice(products)}
         onUpdateCount={updateCount}
       />
-      <Options />
+      <Options options={options} onUpdate={updateOption} />
     </div>
   );
 }

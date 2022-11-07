@@ -26,6 +26,7 @@ function Options({ options, onUpdate }: OptionsProps) {
             <input
               id={opt.name}
               type='checkbox'
+              checked={opt.checked}
               onChange={(e) => onUpdate(opt.id, e.target.checked)}
             />
           </li>
