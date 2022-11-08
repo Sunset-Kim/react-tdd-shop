@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import {
   IProductsApi,
   ProductsApiCtx,
@@ -14,9 +14,14 @@ const OrderPage: React.FC<PageProps> = ({ onChangeStep }) => {
     ProductsApiCtx
   ) as IProductsApi;
   const { products, options } = useContext(ProductsStateCtx) as ProductsState;
-
   const productsPirce = calcProductsPice(products) ?? 0;
   const optionsPrice = calcOptionPrice(options) ?? 0;
+  const totalPrice = productsPirce + optionsPrice;
+
+  const handleClick = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onChangeStep(1);
+  };
 
   return (
     <div>
@@ -35,13 +40,13 @@ const OrderPage: React.FC<PageProps> = ({ onChangeStep }) => {
           </div>
           <div>
             <dt>Total Price</dt>
-            <dd aria-label='total-price'>{`$ ${
-              productsPirce + optionsPrice
-            }`}</dd>
+            <dd aria-label='total-price'>{`$ ${totalPrice}`}</dd>
           </div>
         </dl>
 
-        <button type='submit'>Order Now</button>
+        <button type='button' disabled={totalPrice === 0} onClick={handleClick}>
+          Order Now
+        </button>
       </div>
     </div>
   );
