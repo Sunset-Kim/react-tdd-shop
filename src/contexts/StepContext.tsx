@@ -29,19 +29,17 @@ export const StepApiContext = createContext(api);
 
 const MAX_STEP = 2;
 
+const actions = {
+  next: (state: StepState) => ({ step: state.step + 1 }),
+  prev: (state: StepState) => ({ step: state.step - 1 }),
+  reset: () => ({ step: 0 }),
+};
+
 export const stepReducer = (state: StepState, action: Action) => {
-  switch (action?.type) {
-    case "NEXT":
-      return { step: state.step + 1 };
-
-    case "PREV":
-      return { step: state.step - 1 };
-
-    case "RESET":
-      return { step: 0 };
-    default:
-      return state;
+  if (!action.type || action.type in actions === false) {
+    return state;
   }
+  return actions[action.type as keyof typeof actions](state);
 };
 
 export const StepProvider: React.FC<PropsWithChildren> = ({ children }) => {

@@ -2,13 +2,13 @@ import { stepReducer } from "./StepContext";
 
 describe("Step Context", () => {
   describe("Step Reducer", () => {
-    it("NEXT", () => {
+    it("next", () => {
       const initState = {
         step: 0,
       };
 
       const action = {
-        type: "NEXT",
+        type: "next",
       };
       const state = stepReducer(initState, action);
       expect(state.step).toBe(1);
@@ -20,7 +20,7 @@ describe("Step Context", () => {
       };
 
       const action = {
-        type: "PREV",
+        type: "prev",
       };
       const state = stepReducer(initState, action);
       expect(state.step).toBe(0);
@@ -32,7 +32,7 @@ describe("Step Context", () => {
       };
 
       const action = {
-        type: "RESET",
+        type: "reset",
       };
       const state = stepReducer(initState, action);
       expect(state.step).toBe(0);
