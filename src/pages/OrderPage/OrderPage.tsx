@@ -9,7 +9,7 @@ import { calcOptionPrice, calcProductsPice } from "../../util/calculate_price";
 import Options from "./Options";
 import Products from "./Products";
 
-function OrderPage() {
+const OrderPage: React.FC<PageProps> = ({ onChangeStep }) => {
   const { updateCount, updateOption } = useContext(
     ProductsApiCtx
   ) as IProductsApi;
@@ -45,6 +45,6 @@ function OrderPage() {
       </div>
     </div>
   );
-}
+};
 
 export default OrderPage;

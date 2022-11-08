@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-function SummaryPage() {
+const SummaryPage: React.FC<PageProps> = ({ onChangeStep }) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = () => setChecked(!checked);
@@ -21,6 +21,6 @@ function SummaryPage() {
       </button>
     </div>
   );
-}
+};
 
 export default SummaryPage;
