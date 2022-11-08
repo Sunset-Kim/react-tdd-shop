@@ -31,7 +31,9 @@ export interface OptionState extends Option {
 export const ProductsStateCtx = createContext<ProductsState | null>(null);
 export const ProductsApiCtx = createContext<IProductsApi | null>(null);
 
-const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export default function ProductsProvider({
+  children,
+}: React.PropsWithChildren) {
   const [state, setState] = useState<ProductsState>({
     options: [],
     products: [],
@@ -122,6 +124,4 @@ const CouterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       <ProductsApiCtx.Provider value={api}>{children}</ProductsApiCtx.Provider>
     </ProductsStateCtx.Provider>
   );
-};
-
-export default CouterProvider;
+}

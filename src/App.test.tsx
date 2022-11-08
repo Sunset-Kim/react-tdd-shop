@@ -1,9 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import App from "./App";
+import ProductsProvider from "./contexts/ProductsProvider";
+import { StepProvider } from "./contexts/StepContext";
 
 describe("App", () => {
   function setup() {
-    render(<App />);
+    render(
+      <StepProvider>
+        <ProductsProvider>
+          <App />
+        </ProductsProvider>
+      </StepProvider>
+    );
 
     const orderTitle = screen.queryByRole("heading", {
       level: 1,
