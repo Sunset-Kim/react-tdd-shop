@@ -1,11 +1,15 @@
-import { getByText, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import OrderPage from "../OrderPage";
 import CounterProvider from "../../../contexts/ProductsProvider";
+import OrderPage from "../OrderPage";
 
 describe("Integration test for Order page", () => {
+  const onChangeStep = jest.fn();
+
   function setup() {
-    return render(<OrderPage />, { wrapper: CounterProvider });
+    return render(<OrderPage onChangeStep={onChangeStep} />, {
+      wrapper: CounterProvider,
+    });
   }
 
   context("when Products render", () => {
