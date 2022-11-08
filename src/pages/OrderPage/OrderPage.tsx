@@ -1,14 +1,13 @@
-import Options from "./Options";
-import Products from "./Products";
+import { useContext } from "react";
 import {
   IProductsApi,
-  ProductCountState,
   ProductsApiCtx,
   ProductsState,
   ProductsStateCtx,
 } from "../../contexts/ProductsProvider";
-import { useContext } from "react";
 import { calcOptionPrice, calcProductsPice } from "../../util/calculate_price";
+import Options from "./Options";
+import Products from "./Products";
 
 function OrderPage() {
   const { updateCount, updateOption } = useContext(
@@ -21,6 +20,7 @@ function OrderPage() {
 
   return (
     <div>
+      <h1>Order Page</h1>
       <Products products={products} onUpdateCount={updateCount} />
       <Options options={options} onUpdate={updateOption} />
       <div>
@@ -40,6 +40,8 @@ function OrderPage() {
             }`}</dd>
           </div>
         </dl>
+
+        <button type='submit'>Order Now</button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ function SummaryPage() {
 
   return (
     <div>
-      <h2>주문확인</h2>
+      <h1>Summary Page</h1>
       <input
         id='confirm'
         type='checkbox'
